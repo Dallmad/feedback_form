@@ -1,0 +1,6 @@
+@import '../common/styles/mixins';
+@import '../common/styles/variables';
+
+.app {
+  @include flex(column, center, center)
+}

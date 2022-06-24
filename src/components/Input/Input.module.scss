@@ -1,0 +1,11 @@
+@import '../../common/styles/mixins';
+@import '../../common/styles/variables';
+
+
+.div {
+  @include text(19px, 14px, 500);
+  color: $basicColor_4;
+  &:hover {
+    color: $basicColor_1;
+  }
+}
