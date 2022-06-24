@@ -1,19 +1,19 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 
 export const FeedbackForm = () => {
-    const [inputValues, setInputValue] = useState({
+    const [inputValues, setInputValue] = useState<InputValueType>({
         firstAndLastName: '',
         email: '',
-        phone: null,
-        birthDate: new Date(),
+        phone: '',
+        birthDate: '',
         message: '',
     });
 
-    const [validation, setValidation] = useState({
+    const [validation, setValidation] = useState<ValidationType>({
         firstAndLastName: '',
         email: '',
-        phone: null,
-        birthDate: new Date(),
+        phone: '',
+        birthDate: '',
         message: '',
     });
 
@@ -89,74 +89,83 @@ export const FeedbackForm = () => {
         <div>
             <div>
                 <form
-                    id="FeedbackForm"
+                    id='FeedbackForm'
                     //action="/"
                     //method="POST"
                     onSubmit={handleSubmit}
                 >
                     <div>
                         <input
-                            placeholder="First and Last Name"
-                            type="string"
-                            name="firstAndLastName"
-                            id="firstAndLastName"
+                            placeholder='First and Last Name'
+                            name='firstAndLastName'
                             onChange={(e) => handleChange(e)}
                             value={inputValues.firstAndLastName}
                         />
-                        {validation.firstAndLastName && <p>{validation.firstAndLastName}</p>}
-                        {/*{validation.firstAndLastName && console.log(validation)}*/}
                     </div>
-                    {/*<div className="form-control">
+                    {validation.firstAndLastName && <p>{validation.firstAndLastName}</p>}
+
+                    <div>
                         <input
-                            placeholder="Last Name"
-                            type="string"
-                            id="lName"
-                            name="lName"
-                            className="input-field"
-                            onChange={(e) => handleChange(e)}
-                            value={inputValues.lName}
-                        />
-                        {validation.lName && <p>{validation.lName}</p>}
-                    </div>*/}
-                    <div className="form-control">
-                        <input
-                            placeholder="email"
-                            type="email"
-                            name="email"
+                            placeholder='email'
+                            name='email'
                             onChange={(e) => handleChange(e)}
                             value={inputValues.email}
                         />
                     </div>
                     {validation.email && <p>{validation.email}</p>}
 
-                   {/* <div className="form-control">
+                    <div>
                         <input
-                            placeholder="password"
-                            type="password"
-                            name="password"
-                            className="input-field"
+                            placeholder='Phone Number'
+                            name='phone'
                             onChange={(e) => handleChange(e)}
-                            value={inputValues.password}
-                            required
+                            value={inputValues.phone}
                         />
-                        {validation.password && <p>{validation.password}</p>}
-                    </div>*/}
-                    {/*<div className="form-control">
+                    </div>
+                    {validation.phone && <p>{validation.phone}</p>}
+
+                    <div>
                         <input
-                            placeholder="confirm password"
-                            type="password"
-                            name="confirmPassword"
-                            className="input-field"
+                            placeholder='Birth Date'
+                            name='birthDate'
                             onChange={(e) => handleChange(e)}
-                            value={inputValues.confirmPassword}
-                            required
+                            value={inputValues.birthDate}
                         />
-                    </div>*/}
-                    <button type="submit" id="submit-button">
+                    </div>
+                    {validation.birthDate && <p>{validation.birthDate}</p>}
+
+                    <div>
+                        <input
+                            placeholder='Message'
+                            name='message'
+                            onChange={(e) => handleChange(e)}
+                            value={inputValues.message}
+                        />
+                    </div>
+                    {validation.message && <p>{validation.message}</p>}
+
+                    <button type='submit'>
                         submit
                     </button>
                 </form>
             </div>
         </div>
     );
+}
+
+//types
+type InputValueType = {
+    firstAndLastName: string,
+    email: string,
+    phone: string,
+    birthDate: string,
+    message: string,
+}
+
+type ValidationType = {
+    firstAndLastName: string,
+    email: string,
+    phone: string,
+    birthDate: string,
+    message: string,
 }
