@@ -115,6 +115,10 @@ export const FeedbackForm = () => {
                     {validation.email && <p>{validation.email}</p>}
 
                     <div>
+                        <select name="код">
+                            <option value="РФ" selected={true}>+7</option>
+                            <option value="Беларусь">+375</option>
+                        </select>
                         <input
                             placeholder='Phone Number'
                             name='phone'
