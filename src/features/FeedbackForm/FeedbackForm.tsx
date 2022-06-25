@@ -19,63 +19,74 @@ export const FeedbackForm = () => {
 
     //handle submit updates
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setInputValue({ ...inputValues, [name]: value });
+        const {name, value} = event.target;
+        setInputValue({...inputValues, [name]: value});
     }
 
     const checkValidation = () => {
-        let errors = validation;
+            let errors = validation;
 
-        //first Name validation
-        if (!inputValues.firstAndLastName.trim()) {
-            errors.firstAndLastName = "First or Last name is required";
-        } else {
-            errors.firstAndLastName = "";
-        }
+            //first Name validation
+            if (!inputValues.firstAndLastName.trim()) {
+                errors.firstAndLastName = 'First or Last name is required';
+            } else {
+                errors.firstAndLastName = '';
+            }
 
-        // email validation
-        const emailCond =
-            "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
-        if (!inputValues.email.trim()) {
-            errors.email = 'Email is required';
-        } else if (!inputValues.email.match(emailCond)) {
-            errors.email = 'Please ingress a valid email address';
-        } else {
-            errors.email = '';
-        }
+            // email validation
+            const emailCond =
+                "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+            if (!inputValues.email.trim()) {
+                errors.email = 'Email is required';
+            } else if (!inputValues.email.match(emailCond)) {
+                errors.email = 'Please ingress a valid email address';
+            } else {
+                errors.email = '';
+            }
 
-        //password validation
-       /* const cond1 = '/^(?=.*[a-z]).{6,20}$/';
-        const cond2 = '/^(?=.*[A-Z]).{6,20}$/';
-        const cond3 = '/^(?=.*[0-9]).{6,20}$/';
-        const password = inputValues.password;
-        if (!password) {
-            errors.password = "password is required";
-        } else if (password.length < 6) {
-            errors.password = "Password must be longer than 6 characters";
-        } else if (password.length >= 20) {
-            errors.password = "Password must shorter than 20 characters";
-        } else if (!password.match(cond1)) {
-            errors.password = "Password must contain at least one lowercase";
-        } else if (!password.match(cond2)) {
-            errors.password = "Password must contain at least one capital letter";
-        } else if (!password.match(cond3)) {
-            errors.password = "Password must contain at least a number";
-        } else {
-            errors.password = "";
+            //message validation
+            //const messageCond = '/^(?=.*[a-z]).{10,300}$/'
+            if (!inputValues.message.trim()) {
+                errors.message = "Message is required"
+            } else if (inputValues.message.length < 10) {
+                errors.message = "Message must be longer than 10 characters"
+            } else if (inputValues.message.length > 300) {
+                errors.message = "Message must be shorter than 300 characters"
+            } else {
+                errors.message = ""
+            }
+            /* const cond1 = '/^(?=.*[a-z]).{6,20}$/';
+             const cond2 = '/^(?=.*[A-Z]).{6,20}$/';
+             const cond3 = '/^(?=.*[0-9]).{6,20}$/';
+             const password = inputValues.password;
+             if (!password) {
+                 errors.password = "password is required";
+             } else if (password.length < 6) {
+                 errors.password = "Password must be longer than 6 characters";
+             } else if (password.length >= 20) {
+                 errors.password = "Password must shorter than 20 characters";
+             } else if (!password.match(cond1)) {
+                 errors.password = "Password must contain at least one lowercase";
+             } else if (!password.match(cond2)) {
+                 errors.password = "Password must contain at least one capital letter";
+             } else if (!password.match(cond3)) {
+                 errors.password = "Password must contain at least a number";
+             } else {
+                 errors.password = "";
+             }
+     */
+            //matchPassword validation
+            /* if (!inputValues.confirmPassword) {
+                 errors.confirmPassword = "Password confirmation is required";
+             } else if (inputValues.confirmPassword !== inputValues.Password) {
+                 errors.confirmPassword = "Password does not match confirmation password";
+             } else {
+                 errors.password = "";
+             }
+     */
+            setValidation(errors);
         }
-*/
-        //matchPassword validation
-       /* if (!inputValues.confirmPassword) {
-            errors.confirmPassword = "Password confirmation is required";
-        } else if (inputValues.confirmPassword !== inputValues.Password) {
-            errors.confirmPassword = "Password does not match confirmation password";
-        } else {
-            errors.password = "";
-        }
-*/
-        setValidation(errors);
-    };
+    ;
 
     useEffect(() => {
         checkValidation();
@@ -106,6 +117,7 @@ export const FeedbackForm = () => {
 
                     <div>
                         <input
+                            type={'email'}
                             placeholder='email'
                             name='email'
                             onChange={(e) => handleChange(e)}
@@ -130,6 +142,7 @@ export const FeedbackForm = () => {
 
                     <div>
                         <input
+                            type={'date'}
                             placeholder='Birth Date'
                             name='birthDate'
                             onChange={(e) => handleChange(e)}
