@@ -27,15 +27,18 @@ export const FeedbackForm = () => {
             let errors = validation;
 
             //first Name validation
+        const nameCond ="\"^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$\"gm"
             if (!inputValues.firstAndLastName.trim()) {
                 errors.firstAndLastName = 'First or Last name is required';
-            } else {
+            } else if (!inputValues.firstAndLastName.match(nameCond)) {
+                errors.firstAndLastName = 'First or Last name is required!!';
+            }
+            else {
                 errors.firstAndLastName = '';
             }
 
             // email validation
-            const emailCond =
-                "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+            const emailCond ="/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i"
             if (!inputValues.email.trim()) {
                 errors.email = 'Email is required';
             } else if (!inputValues.email.match(emailCond)) {
