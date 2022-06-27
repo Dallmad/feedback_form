@@ -17,7 +17,7 @@ export const FeedbackForm = () => {
     const success = useSelector<AppRootStateType, boolean>(state => state.loading.isSuccess)
 
     const [inputValues, setInputValue] = useState<InputValueType>({
-        id: '1',
+        id: v1(),
         firstAndLastName: '',
         email: '',
         phone: '',
@@ -106,7 +106,7 @@ export const FeedbackForm = () => {
         }
     ;
     const newMessage = {
-        id: '1',
+        id: v1(),
         firstAndLastName: '',
         email: '',
         phone: '',
