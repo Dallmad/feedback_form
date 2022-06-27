@@ -16,7 +16,7 @@ export const ErrorSuccessSnackbar = () => {
             const timer = setTimeout(() => {
                 dispatch(setError(''))
                 dispatch(loading(false))
-            }, 4500)
+            }, 3000)
             return () => clearTimeout(timer)
         }
     }, [error])

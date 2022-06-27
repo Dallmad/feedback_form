@@ -114,16 +114,14 @@ export const FeedbackForm = () => {
         message: '',
     }
     useEffect(() => {
-        if (isLoading) {
+        if (isLoading||success||error) {
             setDisable(true)
-        }
+        } else setDisable(false)
         if (success) {
-            setDisable(true)
             const timer = setTimeout(() => {
                 dispatch(successAC(false))
                 dispatch(loading(false))
                 setInputValue(newMessage)
-                setDisable(false)
             }, 1500)
             return () => clearTimeout(timer)
         }
