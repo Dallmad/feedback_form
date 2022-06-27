@@ -160,8 +160,7 @@ export const FeedbackForm = () => {
                     />
                     {validation.firstAndLastName && <p className={s.error}>{validation.firstAndLastName}</p>}
                 </div>
-
-
+                
                 <div className={s.box}>
                     <input
                         className={s.input}
@@ -216,7 +215,7 @@ export const FeedbackForm = () => {
             </form>
             <ErrorSuccessSnackbar/>
         </div>
-    );
+    )
 }
 
 //types
