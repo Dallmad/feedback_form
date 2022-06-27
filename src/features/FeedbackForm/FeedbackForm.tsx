@@ -11,12 +11,13 @@ import {AppRootStateType, useTypedDispatch} from '../../state/store';
 export const FeedbackForm = () => {
 
     const dispatch = useTypedDispatch()
-
+    
+    const error = useSelector<AppRootStateType, string>(state => state.loading.error)
     const isLoading = useSelector<AppRootStateType, boolean>(state => state.loading.isLoading)
     const success = useSelector<AppRootStateType, boolean>(state => state.loading.isSuccess)
 
     const [inputValues, setInputValue] = useState<InputValueType>({
-        id: v1(),
+        id: '1',
         firstAndLastName: '',
         email: '',
         phone: '',
@@ -105,7 +106,7 @@ export const FeedbackForm = () => {
         }
     ;
     const newMessage = {
-        id: v1(),
+        id: '1',
         firstAndLastName: '',
         email: '',
         phone: '',
@@ -127,10 +128,9 @@ export const FeedbackForm = () => {
             return () => clearTimeout(timer)
         }
         checkValidation();
-    }, [inputValues, success, isLoading]);
+    }, [inputValues, success, isLoading, error]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-
         dispatch(createUserTC(inputValues))
         e.preventDefault();
     };
@@ -198,11 +198,9 @@ export const FeedbackForm = () => {
                     </div>
                     {validation.message && <p>{validation.message}</p>}
 
-                    
                         <button type="submit" disabled={disable}>
                             submit
                         </button>
-                    
                 </form>
                 <ErrorSuccessSnackbar/>
             </div>
