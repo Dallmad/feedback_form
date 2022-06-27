@@ -27,7 +27,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "server": "json-server -w src/db/db.json -p 6001"
+    "server": "json-server -w src/db.json -p 6001"
   },
   "eslintConfig": {
     "extends": [

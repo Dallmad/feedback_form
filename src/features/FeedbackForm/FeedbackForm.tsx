@@ -4,14 +4,14 @@ import {v1} from 'uuid';
 import {ErrorSuccessSnackbar} from '../../components/ErrorSnackbar/ErrorSnackbar';
 import {InputPhone} from '../../components/Input/PhoneInput';
 import {createUserTC, loading, successAC} from '../../state/loading-reducer';
-
 import {AppRootStateType, useTypedDispatch} from '../../state/store';
+import s from './FeedbackForm.module.scss'
 
 
 export const FeedbackForm = () => {
 
     const dispatch = useTypedDispatch()
-    
+
     const error = useSelector<AppRootStateType, string>(state => state.loading.error)
     const isLoading = useSelector<AppRootStateType, boolean>(state => state.loading.isLoading)
     const success = useSelector<AppRootStateType, boolean>(state => state.loading.isSuccess)
@@ -34,16 +34,16 @@ export const FeedbackForm = () => {
     });
 
     const [disable, setDisable] = useState<boolean>(false)
-    
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = e.target;
         setInputValue({...inputValues, [name]: value});
     }
 
     const checkValidation = () => {
             let errors = validation;
 
-            //Name validation
+            //name validation
             const nameCond = /^([A-Z]{3,30})\s([A-Z]{3,30})$/i
             if (!inputValues.firstAndLastName.trim()) {
                 errors.firstAndLastName = 'You need to enter your first and last name';
@@ -63,6 +63,13 @@ export const FeedbackForm = () => {
                 errors.email = '';
             }
 
+            //phone validation
+            if (inputValues.phone.length < 16) {
+                errors.phone = 'Phone is required'
+            } else {
+                errors.phone = '';
+            }
+
             //message validation
             if (!inputValues.message.trim()) {
                 errors.message = 'Message is required'
@@ -74,6 +81,16 @@ export const FeedbackForm = () => {
                 errors.message = ''
             }
             setValidation(errors);
+
+            if (validation.message
+                || validation.email
+                || validation.firstAndLastName
+                || validation.phone
+            ) {
+                setDisable(true)
+            } else {
+                setDisable(false)
+            }
         }
     ;
     const newMessage = {
@@ -85,7 +102,7 @@ export const FeedbackForm = () => {
         message: '',
     }
     useEffect(() => {
-        if (isLoading||success||error) {
+        if (isLoading || success || error) {
             setDisable(true)
         } else setDisable(false)
         if (success) {
@@ -104,75 +121,104 @@ export const FeedbackForm = () => {
         e.preventDefault();
     };
 
+    const phoneFormat = (e: ChangeEvent<HTMLInputElement>) => {
+        let content: string | string[] = e.currentTarget.value;
+        if (!content) return;
+
+        content = Array.from(content).filter(ltr => ltr.charCodeAt(0) > 47 && ltr.charCodeAt(0) < 58);
+
+        let [countryCode, operatorCode, threeNumbers, firstTwoNumbers, secondTwoNumbers] = [
+            content[0] = '7',
+            content.slice(1, 4).join(''),
+            content.slice(4, 7).join(''),
+            content.slice(7, 9).join(''),
+            content.slice(9, 11).join(''),
+        ]
+
+        e.currentTarget.value = countryCode.length ? `+${countryCode}` : '';
+        if (operatorCode.length) e.target.value += `(${operatorCode}`;
+        if (threeNumbers.length) e.target.value += `)${threeNumbers}`;
+        if (firstTwoNumbers.length) e.target.value += `-${firstTwoNumbers}`;
+        if (secondTwoNumbers.length) e.target.value += `-${secondTwoNumbers}`;
+
+        setInputValue({...inputValues, phone: e.currentTarget.value})
+    }
+
     return (
-        <div>
-            <div>
-                <form
-                    id="FeedbackForm"
-                    onSubmit={handleSubmit}
-                >
-                    <div>
-                        <input
-                            placeholder="First and Last Name"
-                            name="firstAndLastName"
-                            onChange={(e) => handleChange(e)}
-                            value={inputValues.firstAndLastName.toUpperCase()}
-                        />
-                    </div>
-                    {validation.firstAndLastName && <p>{validation.firstAndLastName}</p>}
+        <div className={s.container}>
+            <form
+                className={s.form}
+                id="FeedbackForm"
+                onSubmit={handleSubmit}
+            >
+                <div className={s.box}>
+                    <input
+                        className={s.input}
+                        placeholder="First and Last Name"
+                        name="firstAndLastName"
+                        onChange={(e) => handleChange(e)}
+                        value={inputValues.firstAndLastName.toUpperCase()}
+                        autoFocus
+                    />
+                    {validation.firstAndLastName && <p className={s.error}>{validation.firstAndLastName}</p>}
+                </div>
 
-                    <div>
-                        <input
-                            type={'email'}
-                            placeholder="email"
-                            name="email"
-                            onChange={(e) => handleChange(e)}
-                            value={inputValues.email}
-                        />
-                    </div>
-                    {validation.email && <p>{validation.email}</p>}
 
-                    <div>
-                        {/* <select name="код">
-                            <option value="РФ" selected={true}>+7</option>
-                            <option value="Беларусь">+375</option>
-                        </select>*/}
-                        <input
-                            placeholder="Phone Number"
-                            name="phone"
-                            onChange={(e) => handleChange(e)}
-                            value={inputValues.phone}
-                        />
-                    </div>
-                    {validation.phone && <p>{validation.phone}</p>}
+                <div className={s.box}>
+                    <input
+                        className={s.input}
+                        type={'email'}
+                        placeholder="email"
+                        name="email"
+                        onChange={(e) => handleChange(e)}
+                        value={inputValues.email}
+                        formNoValidate
+                    />
+                    {validation.email && <p className={s.error}>{validation.email}</p>}
+                </div>
 
-                    <div>
-                        <input
-                            type={'date'}
-                            placeholder="Birth Date"
-                            name="birthDate"
-                            onChange={(e) => handleChange(e)}
-                            value={inputValues.birthDate}
-                        />
-                    </div>
-                    {validation.birthDate && <p>{validation.birthDate}</p>}
 
-                    <div>
-                        <input
-                            placeholder="Message"
-                            name="message"
-                            onChange={(e) => handleChange(e)}
-                            value={inputValues.message}
-                        />
-                    </div>
-                    {validation.message && <p>{validation.message}</p>}
+                <div className={s.box}>
+                    <input
+                        className={s.input}
+                        placeholder="+7(___)___-__-__)"
+                        type={'tel'}
+                        name="phone"
+                        onChange={(e) => phoneFormat(e)}
+                        value={inputValues.phone}
+                    />
+                    {validation.phone && <p className={s.error}>{validation.phone}</p>}
+                </div>
 
-                        <button type="submit" disabled={disable}>
-                            submit
-                        </button>
-                </form>
-                <ErrorSuccessSnackbar/>
-            </div>
+
+                <div className={s.box}>
+                    <input
+                        className={s.input}
+                        type={'date'}
+                        placeholder="Birth Date"
+                        name="birthDate"
+                        onChange={(e) => handleChange(e)}
+                        value={inputValues.birthDate}
+                    />
+                    {validation.birthDate && <p className={s.error}>{validation.birthDate}</p>}
+                </div>
+
+                <div className={s.box}>
+                    <input
+                        className={s.input}
+                        placeholder="Message"
+                        name="message"
+                        onChange={(e) => handleChange(e)}
+                        value={inputValues.message}
+                    />
+                    {validation.message && <p className={s.error}>{validation.message}</p>}
+                </div>
+
+                <button type="submit" disabled={disable} className={s.submit}>
+                    submit
+                </button>
+            </form>
+            <ErrorSuccessSnackbar/>
         </div>
     );
 }

@@ -1,7 +1,7 @@
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import thunkMiddleware, {ThunkDispatch} from 'redux-thunk'
-import {LoadingActionsType, loadingReducer } from './loading-reducer';
+import {LoadingActionsType, loadingReducer} from './loading-reducer';
 
 const rootReducer = combineReducers({
     loading: loadingReducer

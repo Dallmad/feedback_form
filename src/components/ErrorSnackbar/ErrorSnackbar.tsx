@@ -2,13 +2,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../state/store';
 import s from './ErrorSnackbar.module.scss'
 import {useEffect} from 'react';
-import {loading, setError, successAC } from '../../state/loading-reducer';
+import {loading, setError, successAC} from '../../state/loading-reducer';
 
 
 export const ErrorSuccessSnackbar = () => {
     const error = useSelector<AppRootStateType, string>(state => state.loading.error)
     const success = useSelector<AppRootStateType, boolean>(state => state.loading.isSuccess)
-    
+
     const dispatch = useDispatch()
 
     useEffect(() => {

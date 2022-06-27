@@ -1,0 +1,52 @@
+@import '../../common/styles/variables';
+@import '../../common/styles/mixins';
+
+.container {
+  @include flex(column, center, center);
+
+  .form {
+
+    .box {
+      margin-top: 10px;
+      @include flex(row, center, center);
+    }
+
+    .input {
+      @include text(20px, 16px, 600);
+      @include flex(row, start, center);
+      width: 250px;
+      min-height: 50px;
+      border: 2px solid $borderColor;
+      padding: 0 10px;
+      margin: 0;
+      color: $basicColor_1;
+      word-break: normal;
+
+    }
+
+    .error {
+      position: fixed;
+      left: 700px;
+      @include text(18px, 15px, 500);
+      margin-left: 15px;
+      color: $errorColor;
+      width: 250px;
+    }
+
+    .submit {
+      @include text(25px, 16px, 500);
+      width: 274px;
+      height: 50px;
+      margin-top: 10px;
+      padding: 0 10px;
+      border: 2px solid $borderColor;
+      background-color: #525454;
+      color: aliceblue;
+
+      &:disabled {
+        background-color: #b9b4b5;
+        color: #2a2c2c;
+      }
+    }
+  }
+}
