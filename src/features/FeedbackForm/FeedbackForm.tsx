@@ -43,17 +43,17 @@ export const FeedbackForm = () => {
     const checkValidation = () => {
             let errors = validation;
 
-            //first Name validation
+            //Name validation
             const nameCond = /^([A-Z]{3,30})\s([A-Z]{3,30})$/i
             if (!inputValues.firstAndLastName.trim()) {
                 errors.firstAndLastName = 'You need to enter your first and last name';
             } else if (!nameCond.test(inputValues.firstAndLastName)) {
-                errors.firstAndLastName = 'First or Last name is required!!';
+                errors.firstAndLastName = 'First and last names must contain from 3 to 30 Latin letters';
             } else {
                 errors.firstAndLastName = '';
             }
 
-            // email validation
+            //email validation
             const emailCond = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-z\-0-9]+\.)+[a-z]{2,}))$/i
             if (!inputValues.email.trim()) {
                 errors.email = 'Email is required';
@@ -73,26 +73,6 @@ export const FeedbackForm = () => {
             } else {
                 errors.message = ''
             }
-            /* const cond1 = '/^(?=.*[a-z]).{6,20}$/';
-             const cond2 = '/^(?=.*[A-Z]).{6,20}$/';
-             const cond3 = '/^(?=.*[0-9]).{6,20}$/';
-             const password = inputValues.password;
-             if (!password) {
-                 errors.password = "password is required";
-             } else if (password.length < 6) {
-                 errors.password = "Password must be longer than 6 characters";
-             } else if (password.length >= 20) {
-                 errors.password = "Password must shorter than 20 characters";
-             } else if (!password.match(cond1)) {
-                 errors.password = "Password must contain at least one lowercase";
-             } else if (!password.match(cond2)) {
-                 errors.password = "Password must contain at least one capital letter";
-             } else if (!password.match(cond3)) {
-                 errors.password = "Password must contain at least a number";
-             } else {
-                 errors.password = "";
-             }
-     */
             setValidation(errors);
         }
     ;
