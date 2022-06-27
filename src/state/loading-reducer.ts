@@ -29,7 +29,6 @@ export const loading = (isLoading: boolean) => ({type: LOADING, isLoading} as co
 export const successAC = (isSuccess: boolean) => ({type: SET_SUCCESS, isSuccess} as const)
 export const setError = (error: string) => ({type: SET_ERROR, error} as const)
 
-
 // thunks
 export const createUserTC = (user: UserType) => async (dispatch: Dispatch) => {
     try {
@@ -61,8 +60,4 @@ export type UserType = {
     phone: string
     birthDate: string
     message: string
-}
-
-function dispatch(arg0: { readonly type: 'LOADING'; readonly isLoading: boolean }) {
-    throw new Error('Function not implemented.')
 }

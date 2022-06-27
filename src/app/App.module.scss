@@ -2,5 +2,8 @@
 @import '../common/styles/variables';
 
 .app {
-  @include flex(column, center, center)
+  @include flex(column, center, center);
+  .h2 {
+    color: $basicColor_1;
+  }
 }

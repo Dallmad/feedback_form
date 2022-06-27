@@ -21,7 +21,6 @@
       margin: 0;
       color: $basicColor_1;
       word-break: normal;
-
     }
 
     .error {
@@ -42,6 +41,7 @@
       border: 2px solid $borderColor;
       background-color: #525454;
       color: aliceblue;
+      cursor: pointer;
 
       &:disabled {
         background-color: #b9b4b5;
