@@ -1,7 +1,20 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {v1} from 'uuid';
+import {InputPhone} from '../../components/Input/PhoneInput';
+import { createUserTC } from '../../state/loading-reducer';
+
+import {AppRootStateType, useTypedDispatch} from '../../state/store';
+
 
 export const FeedbackForm = () => {
+
+    const dispatch = useTypedDispatch()
+
+    const isLoading = useSelector<AppRootStateType, boolean>(state => state.loading.isLoading)
+
     const [inputValues, setInputValue] = useState<InputValueType>({
+        id: v1(),
         firstAndLastName: '',
         email: '',
         phone: '',
@@ -27,18 +40,17 @@ export const FeedbackForm = () => {
             let errors = validation;
 
             //first Name validation
-        const nameCond ="\"^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$\"gm"
+            const nameCond = '"^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$"gm'
             if (!inputValues.firstAndLastName.trim()) {
                 errors.firstAndLastName = 'First or Last name is required';
             } else if (!inputValues.firstAndLastName.match(nameCond)) {
                 errors.firstAndLastName = 'First or Last name is required!!';
-            }
-            else {
+            } else {
                 errors.firstAndLastName = '';
             }
 
             // email validation
-            const emailCond ="/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i"
+            const emailCond = '/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i'
             if (!inputValues.email.trim()) {
                 errors.email = 'Email is required';
             } else if (!inputValues.email.match(emailCond)) {
@@ -50,13 +62,13 @@ export const FeedbackForm = () => {
             //message validation
             //const messageCond = '/^(?=.*[a-z]).{10,300}$/'
             if (!inputValues.message.trim()) {
-                errors.message = "Message is required"
+                errors.message = 'Message is required'
             } else if (inputValues.message.length < 10) {
-                errors.message = "Message must be longer than 10 characters"
+                errors.message = 'Message must be longer than 10 characters'
             } else if (inputValues.message.length > 300) {
-                errors.message = "Message must be shorter than 300 characters"
+                errors.message = 'Message must be shorter than 300 characters'
             } else {
-                errors.message = ""
+                errors.message = ''
             }
             /* const cond1 = '/^(?=.*[a-z]).{6,20}$/';
              const cond2 = '/^(?=.*[A-Z]).{6,20}$/';
@@ -96,6 +108,7 @@ export const FeedbackForm = () => {
     }, [inputValues]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        dispatch(createUserTC(inputValues))
         e.preventDefault();
     };
 
@@ -103,15 +116,15 @@ export const FeedbackForm = () => {
         <div>
             <div>
                 <form
-                    id='FeedbackForm'
-                    //action="/"
-                    //method="POST"
+                    id="FeedbackForm"
+                    action="/"
+                    method="POST"
                     onSubmit={handleSubmit}
                 >
                     <div>
                         <input
-                            placeholder='First and Last Name'
-                            name='firstAndLastName'
+                            placeholder="First and Last Name"
+                            name="firstAndLastName"
                             onChange={(e) => handleChange(e)}
                             value={inputValues.firstAndLastName}
                         />
@@ -121,8 +134,8 @@ export const FeedbackForm = () => {
                     <div>
                         <input
                             type={'email'}
-                            placeholder='email'
-                            name='email'
+                            placeholder="email"
+                            name="email"
                             onChange={(e) => handleChange(e)}
                             value={inputValues.email}
                         />
@@ -130,13 +143,13 @@ export const FeedbackForm = () => {
                     {validation.email && <p>{validation.email}</p>}
 
                     <div>
-                        <select name="код">
+                        {/* <select name="код">
                             <option value="РФ" selected={true}>+7</option>
                             <option value="Беларусь">+375</option>
-                        </select>
+                        </select>*/}
                         <input
-                            placeholder='Phone Number'
-                            name='phone'
+                            placeholder="Phone Number"
+                            name="phone"
                             onChange={(e) => handleChange(e)}
                             value={inputValues.phone}
                         />
@@ -146,8 +159,8 @@ export const FeedbackForm = () => {
                     <div>
                         <input
                             type={'date'}
-                            placeholder='Birth Date'
-                            name='birthDate'
+                            placeholder="Birth Date"
+                            name="birthDate"
                             onChange={(e) => handleChange(e)}
                             value={inputValues.birthDate}
                         />
@@ -156,17 +169,22 @@ export const FeedbackForm = () => {
 
                     <div>
                         <input
-                            placeholder='Message'
-                            name='message'
+                            placeholder="Message"
+                            name="message"
                             onChange={(e) => handleChange(e)}
                             value={inputValues.message}
                         />
                     </div>
                     {validation.message && <p>{validation.message}</p>}
 
-                    <button type='submit'>
-                        submit
-                    </button>
+                    {!isLoading ?
+                        <button type="submit">
+                            submit
+                        </button> :
+                        <button type="submit" disabled={true}>
+                            submit
+                        </button>
+                    }
                 </form>
             </div>
         </div>
@@ -175,11 +193,12 @@ export const FeedbackForm = () => {
 
 //types
 type InputValueType = {
-    firstAndLastName: string,
-    email: string,
-    phone: string,
-    birthDate: string,
-    message: string,
+    id: string
+    firstAndLastName: string
+    email: string
+    phone: string
+    birthDate: string
+    message: string
 }
 
 type ValidationType = {

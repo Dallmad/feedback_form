@@ -33,7 +33,7 @@ export const Input: React.FC<SuperInputTextPropsType> = (
 
     const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ''}`
     const finalInputClassName = `${error ? s.errorInput : s.superInput} ${className}`
-
+    
     return (
         <div className={s.div}>
             <label htmlFor={`${label}`} className={s.label}>{label}</label>
