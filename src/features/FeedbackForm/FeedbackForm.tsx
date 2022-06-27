@@ -146,14 +146,14 @@ export const FeedbackForm = () => {
         <div className={s.container}>
             <form
                 className={s.form}
-                id="FeedbackForm"
+                id='FeedbackForm'
                 onSubmit={handleSubmit}
             >
                 <div className={s.box}>
                     <input
                         className={s.input}
-                        placeholder="First and Last Name"
-                        name="firstAndLastName"
+                        placeholder='First and Last Name'
+                        name='firstAndLastName'
                         onChange={(e) => handleChange(e)}
                         value={inputValues.firstAndLastName.toUpperCase()}
                         autoFocus
@@ -165,8 +165,8 @@ export const FeedbackForm = () => {
                     <input
                         className={s.input}
                         type={'email'}
-                        placeholder="email"
-                        name="email"
+                        placeholder='email'
+                        name='email'
                         onChange={(e) => handleChange(e)}
                         value={inputValues.email}
                         formNoValidate
@@ -177,9 +177,9 @@ export const FeedbackForm = () => {
                 <div className={s.box}>
                     <input
                         className={s.input}
-                        placeholder="+7(___)___-__-__)"
+                        placeholder='+7(___)___-__-__)'
                         type={'tel'}
-                        name="phone"
+                        name='phone'
                         onChange={(e) => phoneFormat(e)}
                         value={inputValues.phone}
                     />
@@ -190,10 +190,10 @@ export const FeedbackForm = () => {
                     <input
                         className={s.input}
                         type={'text'}
-                        placeholder="Birth Date"
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
-                        name="birthDate"
+                        placeholder='Birth Date'
+                        onFocus={(e) => (e.target.type = 'date')}
+                        onBlur={(e) => (e.target.type = 'text')}
+                        name='birthDate'
                         onChange={(e) => handleChange(e)}
                         value={inputValues.birthDate}
                     />
@@ -203,15 +203,15 @@ export const FeedbackForm = () => {
                 <div className={s.box}>
                     <input
                         className={s.input}
-                        placeholder="Message"
-                        name="message"
+                        placeholder='Message'
+                        name='message'
                         onChange={(e) => handleChange(e)}
                         value={inputValues.message}
                     />
                     {validation.message && <p className={s.error}>{validation.message}</p>}
                 </div>
 
-                <button type="submit" disabled={disable} className={s.submit}>
+                <button type='submit' disabled={disable} className={s.submit}>
                     submit
                 </button>
             </form>
