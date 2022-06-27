@@ -9,6 +9,9 @@
     .box {
       margin-top: 10px;
       @include flex(row, center, center);
+      @media screen and (max-width: 800px){
+        @include flex(column, center, start);
+      }
     }
 
     .input {
@@ -21,15 +24,28 @@
       margin: 0;
       color: $basicColor_1;
       word-break: normal;
+
     }
 
     .error {
       position: fixed;
-      left: 700px;
+      left: 57%;
       @include text(18px, 15px, 500);
       margin-left: 15px;
       color: $errorColor;
       width: 250px;
+      @media screen and (max-width: 1900px){
+        left: 60%;
+      }
+      @media screen and (max-width: 1300px){
+        left: 64%;
+      }
+      @media screen and (max-width: 940px){
+        left: 68%;
+      }
+      @media screen and (max-width: 800px){
+       position: inherit;
+      }
     }
 
     .submit {
@@ -46,6 +62,7 @@
       &:disabled {
         background-color: #b9b4b5;
         color: #2a2c2c;
+        cursor: auto;
       }
     }
   }
