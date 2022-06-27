@@ -32,7 +32,6 @@ export const setError = (error: string) => ({type: SET_ERROR, error} as const)
 
 // thunks
 export const createUserTC = (user: UserType) => async (dispatch: Dispatch) => {
-    
     try {
         dispatch(loading(true))
         await api.createUsers(user)
@@ -40,7 +39,6 @@ export const createUserTC = (user: UserType) => async (dispatch: Dispatch) => {
     } catch (error) {
         if (error instanceof Error) {
             handleServerNetworkError(error.message, dispatch)
-            dispatch(loading(false))
         }
     } finally {
         dispatch(loading(false))

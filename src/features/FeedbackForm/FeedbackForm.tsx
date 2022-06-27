@@ -44,21 +44,21 @@ export const FeedbackForm = () => {
             let errors = validation;
 
             //first Name validation
-            const nameCond = '^([A-Z].{3,30})$'
+            const nameCond = /^([A-Z]{3,30})\s([A-Z]{3,30})$/i
             if (!inputValues.firstAndLastName.trim()) {
-                errors.firstAndLastName = 'First or Last name is required';
-            } else if (!inputValues.firstAndLastName.match(nameCond)) {
+                errors.firstAndLastName = 'You need to enter your first and last name';
+            } else if (!nameCond.test(inputValues.firstAndLastName)) {
                 errors.firstAndLastName = 'First or Last name is required!!';
             } else {
                 errors.firstAndLastName = '';
             }
 
             // email validation
-            const emailCond = '/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$/i'
+            const emailCond = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-z\-0-9]+\.)+[a-z]{2,}))$/i
             if (!inputValues.email.trim()) {
                 errors.email = 'Email is required';
-            } else if (inputValues.email.match(emailCond)) {
-                errors.email = 'Please ingress a valid email address';
+            } else if (!emailCond.test(inputValues.email)) {
+                errors.email = 'Please enter a valid email address';
             } else {
                 errors.email = '';
             }
@@ -89,15 +89,6 @@ export const FeedbackForm = () => {
                  errors.password = "Password must contain at least one capital letter";
              } else if (!password.match(cond3)) {
                  errors.password = "Password must contain at least a number";
-             } else {
-                 errors.password = "";
-             }
-     */
-            //matchPassword validation
-            /* if (!inputValues.confirmPassword) {
-                 errors.confirmPassword = "Password confirmation is required";
-             } else if (inputValues.confirmPassword !== inputValues.Password) {
-                 errors.confirmPassword = "Password does not match confirmation password";
              } else {
                  errors.password = "";
              }
