@@ -217,49 +217,7 @@ export const FeedbackForm = () => {
         </div>
     )
 }
-<div className={s.box}>
-    <input
-        className={s.input}
-        type={'date'}
-        placeholder="Birth Date"
-        name="birthDate"
-        onChange={(e) => handleChange(e)}
-        value={inputValues.birthDate}
-    />
-    {validation.birthDate && <p className={s.error}>{validation.birthDate}</p>}
-</div>
 
-<div className={s.box}>
-    <input
-        className={s.input}
-        placeholder="Message"
-        name="message"
-        onChange={(e) => handleChange(e)}
-        value={inputValues.message}
-    />
-    {validation.message && <p className={s.error}>{validation.message}</p>}
-</div> <div className={s.box}>
-    <input
-        className={s.input}
-        type={'date'}
-        placeholder="Birth Date"
-        name="birthDate"
-        onChange={(e) => handleChange(e)}
-        value={inputValues.birthDate}
-    />
-    {validation.birthDate && <p className={s.error}>{validation.birthDate}</p>}
-</div>
-
-<div className={s.box}>
-    <input
-        className={s.input}
-        placeholder="Message"
-        name="message"
-        onChange={(e) => handleChange(e)}
-        value={inputValues.message}
-    />
-    {validation.message && <p className={s.error}>{validation.message}</p>}
-</div>
 //types
 type InputValueType = {
     id: string
