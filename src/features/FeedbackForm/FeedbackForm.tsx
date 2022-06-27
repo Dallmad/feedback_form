@@ -189,8 +189,10 @@ export const FeedbackForm = () => {
                 <div className={s.box}>
                     <input
                         className={s.input}
-                        type={'date'}
+                        type={'text'}
                         placeholder="Birth Date"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
                         name="birthDate"
                         onChange={(e) => handleChange(e)}
                         value={inputValues.birthDate}
