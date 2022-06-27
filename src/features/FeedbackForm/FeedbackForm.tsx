@@ -1,8 +1,9 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {v1} from 'uuid';
+import {ErrorSuccessSnackbar} from '../../components/ErrorSnackbar/ErrorSnackbar';
 import {InputPhone} from '../../components/Input/PhoneInput';
-import { createUserTC } from '../../state/loading-reducer';
+import {createUserTC, loading, successAC} from '../../state/loading-reducer';
 
 import {AppRootStateType, useTypedDispatch} from '../../state/store';
 
@@ -12,6 +13,7 @@ export const FeedbackForm = () => {
     const dispatch = useTypedDispatch()
 
     const isLoading = useSelector<AppRootStateType, boolean>(state => state.loading.isLoading)
+    const success = useSelector<AppRootStateType, boolean>(state => state.loading.isSuccess)
 
     const [inputValues, setInputValue] = useState<InputValueType>({
         id: v1(),
@@ -30,7 +32,8 @@ export const FeedbackForm = () => {
         message: '',
     });
 
-    //handle submit updates
+    const [disable, setDisable] = useState<boolean>(false)
+    
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
         setInputValue({...inputValues, [name]: value});
@@ -40,7 +43,7 @@ export const FeedbackForm = () => {
             let errors = validation;
 
             //first Name validation
-            const nameCond = '"^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$"gm'
+            const nameCond = '^([A-Z].{3,30})$'
             if (!inputValues.firstAndLastName.trim()) {
                 errors.firstAndLastName = 'First or Last name is required';
             } else if (!inputValues.firstAndLastName.match(nameCond)) {
@@ -50,17 +53,16 @@ export const FeedbackForm = () => {
             }
 
             // email validation
-            const emailCond = '/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i'
+            const emailCond = '/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$/i'
             if (!inputValues.email.trim()) {
                 errors.email = 'Email is required';
-            } else if (!inputValues.email.match(emailCond)) {
+            } else if (inputValues.email.match(emailCond)) {
                 errors.email = 'Please ingress a valid email address';
             } else {
                 errors.email = '';
             }
 
             //message validation
-            //const messageCond = '/^(?=.*[a-z]).{10,300}$/'
             if (!inputValues.message.trim()) {
                 errors.message = 'Message is required'
             } else if (inputValues.message.length < 10) {
@@ -102,12 +104,33 @@ export const FeedbackForm = () => {
             setValidation(errors);
         }
     ;
-
+    const newMessage = {
+        id: v1(),
+        firstAndLastName: '',
+        email: '',
+        phone: '',
+        birthDate: '',
+        message: '',
+    }
     useEffect(() => {
+        if (isLoading) {
+            setDisable(true)
+        }
+        if (success) {
+            setDisable(true)
+            const timer = setTimeout(() => {
+                dispatch(successAC(false))
+                dispatch(loading(false))
+                setInputValue(newMessage)
+                setDisable(false)
+            }, 1500)
+            return () => clearTimeout(timer)
+        }
         checkValidation();
-    }, [inputValues]);
+    }, [inputValues, success, isLoading]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
         dispatch(createUserTC(inputValues))
         e.preventDefault();
     };
@@ -117,8 +140,6 @@ export const FeedbackForm = () => {
             <div>
                 <form
                     id="FeedbackForm"
-                    action="/"
-                    method="POST"
                     onSubmit={handleSubmit}
                 >
                     <div>
@@ -126,7 +147,7 @@ export const FeedbackForm = () => {
                             placeholder="First and Last Name"
                             name="firstAndLastName"
                             onChange={(e) => handleChange(e)}
-                            value={inputValues.firstAndLastName}
+                            value={inputValues.firstAndLastName.toUpperCase()}
                         />
                     </div>
                     {validation.firstAndLastName && <p>{validation.firstAndLastName}</p>}
@@ -177,15 +198,13 @@ export const FeedbackForm = () => {
                     </div>
                     {validation.message && <p>{validation.message}</p>}
 
-                    {!isLoading ?
-                        <button type="submit">
-                            submit
-                        </button> :
-                        <button type="submit" disabled={true}>
+                    
+                        <button type="submit" disabled={disable}>
                             submit
                         </button>
-                    }
+                    
                 </form>
+                <ErrorSuccessSnackbar/>
             </div>
         </div>
     );
