@@ -33,7 +33,7 @@ export const FeedbackForm = () => {
 
     const [disable, setDisable] = useState<boolean>(false)
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
         const {name, value} = e.target
         setInputValue({...inputValues, [name]: value})
     }
@@ -42,10 +42,10 @@ export const FeedbackForm = () => {
         let errors = validation
 
         //name validation
-        const nameCond = /^([A-Z]{3,30})\s([A-Z]{2,30})$/i
+        const nameCond = /^([A-Z]{3,30})\s([A-Z]{3,30})$/i
         if (!inputValues.firstAndLastName.trim()) {
             errors.firstAndLastName = 'You need to enter your first and last name'
-        } else if (!nameCond.test(inputValues.firstAndLastName) || inputValues.firstAndLastName.length>6) {
+        } else if (!nameCond.test(inputValues.firstAndLastName)) {
             errors.firstAndLastName = 'First and last names must contain from 3 to 30 Latin letters'
         } else {
             errors.firstAndLastName = ''
@@ -55,7 +55,7 @@ export const FeedbackForm = () => {
         const emailCond = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-z\-0-9]+\.)+[a-z]{2,}))$/i
         if (!inputValues.email.trim()) {
             errors.email = 'Email is required'
-        } else if (!emailCond.test(inputValues.email)) {
+        } else if (!inputValues.email.match(emailCond)) {
             errors.email = 'Please enter a valid email address'
         } else {
             errors.email = ''
@@ -90,6 +90,7 @@ export const FeedbackForm = () => {
         message: '',
     }
     useEffect(() => {
+        checkValidation()
         if (isLoading
             || success
             || error
@@ -107,8 +108,10 @@ export const FeedbackForm = () => {
             }, 1500)
             return () => clearTimeout(timer)
         }
-        checkValidation()
-    }, [inputValues, success, isLoading, error])
+    }, [inputValues.message, inputValues.email, inputValues.phone, inputValues.firstAndLastName,
+        success, isLoading, error,
+        validation.message, validation.email, validation.firstAndLastName, validation.phone
+    ])
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         dispatch(createUserTC(inputValues))
@@ -142,28 +145,28 @@ export const FeedbackForm = () => {
         <div className={s.container}>
             <form
                 className={s.form}
-                id='FeedbackForm'
+                id="FeedbackForm"
                 onSubmit={handleSubmit}
             >
                 <div className={s.box}>
                     <textarea
                         rows={2}
                         className={s.name}
-                        placeholder='First and Last Name'
-                        name='firstAndLastName'
+                        placeholder="First and Last Name"
+                        name="firstAndLastName"
                         onChange={(e) => handleChange(e)}
                         value={inputValues.firstAndLastName.toUpperCase()}
                         autoFocus
                     />
                     {validation.firstAndLastName && <p className={s.error}>{validation.firstAndLastName}</p>}
                 </div>
-                
+
                 <div className={s.box}>
                     <input
                         className={s.input}
                         type={'email'}
-                        placeholder='email'
-                        name='email'
+                        placeholder="email"
+                        name="email"
                         onChange={(e) => handleChange(e)}
                         value={inputValues.email}
                         formNoValidate
@@ -174,9 +177,9 @@ export const FeedbackForm = () => {
                 <div className={s.box}>
                     <input
                         className={s.input}
-                        placeholder='+7(___)___-__-__)'
+                        placeholder="+7(___)___-__-__)"
                         type={'tel'}
-                        name='phone'
+                        name="phone"
                         onChange={(e) => phoneFormat(e)}
                         value={inputValues.phone}
                     />
@@ -187,10 +190,10 @@ export const FeedbackForm = () => {
                     <input
                         className={s.input}
                         type={'text'}
-                        placeholder='Birth Date'
+                        placeholder="Birth Date"
                         onFocus={(e) => (e.target.type = 'date')}
                         onBlur={(e) => (e.target.type = 'text')}
-                        name='birthDate'
+                        name="birthDate"
                         onChange={(e) => handleChange(e)}
                         value={inputValues.birthDate}
                     />
@@ -201,15 +204,15 @@ export const FeedbackForm = () => {
                     <textarea
                         rows={10}
                         className={s.message}
-                        placeholder='Message'
-                        name='message'
+                        placeholder="Message"
+                        name="message"
                         onChange={(e) => handleChange(e)}
                         value={inputValues.message}
                     />
                     {validation.message && <p className={s.error}>{validation.message}</p>}
                 </div>
 
-                <button type='submit' disabled={disable} className={s.submit}>
+                <button type="submit" disabled={disable} className={s.submit}>
                     submit
                 </button>
             </form>
