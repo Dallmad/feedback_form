@@ -33,7 +33,7 @@ export const FeedbackForm = () => {
 
     const [disable, setDisable] = useState<boolean>(false)
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>|ChangeEvent<HTMLTextAreaElement>) => {
         const {name, value} = e.target
         setInputValue({...inputValues, [name]: value})
     }
@@ -150,8 +150,9 @@ export const FeedbackForm = () => {
                 onSubmit={handleSubmit}
             >
                 <div className={s.box}>
-                    <input
-                        className={s.input}
+                    <textarea
+                        rows={2}
+                        className={s.name}
                         placeholder='First and Last Name'
                         name='firstAndLastName'
                         onChange={(e) => handleChange(e)}
@@ -201,8 +202,9 @@ export const FeedbackForm = () => {
                 </div>
 
                 <div className={s.box}>
-                    <input
-                        className={s.input}
+                    <textarea
+                        rows={10}
+                        className={s.message}
                         placeholder='Message'
                         name='message'
                         onChange={(e) => handleChange(e)}

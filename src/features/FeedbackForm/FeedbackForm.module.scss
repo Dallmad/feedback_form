@@ -23,10 +23,19 @@
       padding: 0 10px;
       margin: 0;
       color: $basicColor_1;
-      word-break: normal;
-
     }
-
+    textarea {
+      @include text(20px, 16px, 600);
+      @include flex(row, start, center);
+      width: 250px;
+      min-height: 50px;
+      border: 2px solid $borderColor;
+      padding: 0 10px;
+      margin: auto 0;
+      color: $basicColor_1;
+      word-break: normal;
+      resize: none;
+    }
     .error {
       position: fixed;
       left: 57%;
