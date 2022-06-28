@@ -79,16 +79,6 @@ export const FeedbackForm = () => {
             errors.message = ''
         }
         setValidation(errors)
-
-        if (validation.message
-            || validation.email
-            || validation.firstAndLastName
-            || validation.phone
-        ) {
-            setDisable(true)
-        } else {
-            setDisable(false)
-        }
     }
 
     const newMessage = {
@@ -100,7 +90,13 @@ export const FeedbackForm = () => {
         message: '',
     }
     useEffect(() => {
-        if (isLoading || success || error) {
+        if (isLoading
+            || success
+            || error
+            || validation.message
+            || validation.email
+            || validation.firstAndLastName
+            || validation.phone) {
             setDisable(true)
         } else setDisable(false)
         if (success) {
