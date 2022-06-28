@@ -42,10 +42,10 @@ export const FeedbackForm = () => {
         let errors = validation
 
         //name validation
-        const nameCond = /^([A-Z]{3,30})\s([A-Z]{3,30})$/i
+        const nameCond = /^([A-Z]{3,30})\s([A-Z]{2,30})$/i
         if (!inputValues.firstAndLastName.trim()) {
             errors.firstAndLastName = 'You need to enter your first and last name'
-        } else if (!nameCond.test(inputValues.firstAndLastName)) {
+        } else if (!nameCond.test(inputValues.firstAndLastName) || inputValues.firstAndLastName.length>6) {
             errors.firstAndLastName = 'First and last names must contain from 3 to 30 Latin letters'
         } else {
             errors.firstAndLastName = ''
